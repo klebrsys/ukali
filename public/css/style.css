@@ -169,6 +169,103 @@ main {
     text-align: center;
     margin-bottom: 2rem;
     color: var(--primary-color);
+    font-size: 2.5em;
+}
+
+.registration form {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: white;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.form-field {
+    position: relative;
+    width: 100%;
+}
+
+.form-field input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: white;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-field label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    padding: 0 5px;
+    color: #666;
+    font-size: 1rem;
+    transition: all 0.3s;
+    pointer-events: none;
+}
+
+.form-field input:focus,
+.form-field input:not(:placeholder-shown) {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.form-field input:not(:placeholder-shown) {
+    padding-top: 20px;
+    padding-bottom: 4px;
+}
+
+.register-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.registration input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+.registration input:focus {
+    outline: none;
+    border-color: var(--primary-color);
 }
 
 form {
@@ -187,17 +284,27 @@ form input {
 .submit-button {
     background-color: var(--primary-color);
     color: white;
-    padding: 0.8rem;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 .submit-button:hover {
     background-color: var(--secondary-color);
+}
+
+.form-field input::placeholder {
+    color: transparent;
+}
+
+.form-group input::placeholder {
+    color: #666;
 }
 
 footer {
@@ -316,4 +423,18 @@ footer {
 
 .clear-db-button:hover {
     opacity: 1;
+}
+
+input[name="phone"] {
+    padding-left: 10px !important;
+}
+
+@media (max-width: 768px) {
+    .registration form {
+        padding: 1.5rem;
+    }
+    
+    .form-group input {
+        font-size: 16px;
+    }
 }

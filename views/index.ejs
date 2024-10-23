@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/vanilla-masker@1.1.1/build/vanilla-masker.min.js"></script>
+
 </head>
 <body>
     <header>
@@ -61,11 +63,19 @@
         <section id="register" class="registration">
             <h2>Participe e Concorra a uma Alexa!</h2>
             <form id="registrationForm">
-                <input type="text" name="name" placeholder="Nome" required>
-                <input type="email" name="email" placeholder="E-mail" required>
-                <input type="tel" name="phone" placeholder="Telefone">
-                <input type="text" name="company" placeholder="Empresa">
-                <button type="submit" class="submit-button">Cadastrar</button>
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Nome" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" id="phone" placeholder="Telefone">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="company" placeholder="Empresa">
+                </div>
+                <button type="submit" class="register-button">Cadastrar</button>
             </form>
         </section>
     </main>
@@ -76,5 +86,6 @@
     </footer>
 
     <script src="/js/main.js"></script>
+    <script src="/js/registration.js"></script>
 </body>
 </html>

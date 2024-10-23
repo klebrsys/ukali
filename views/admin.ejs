@@ -6,6 +6,36 @@
     <title>Administração - Ukali</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .participants-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .participants-table th,
+        .participants-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .participants-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        .participants-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        .total-participants {
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .draw-section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -15,59 +45,119 @@
     <main>
         <section class="participants">
             <h2>Participantes Cadastrados</h2>
-            <table>
+            <div class="total-participants">
+                Total de Participantes: <%= participants.length %>
+            </div>
+            
+            <table class="participants-table">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Telefone</th>
                         <th>Empresa</th>
+                        <th>Data de Cadastro</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% participants.forEach(function(participant) { %>
+                    <% 
+                    const uniqueEmails = new Set();
+                    participants.forEach(function(participant) { 
+                        if (!uniqueEmails.has(participant.email)) {
+                            uniqueEmails.add(participant.email);
+                    %>
                         <tr>
                             <td><%= participant.name %></td>
                             <td><%= participant.email %></td>
-                            <td><%= participant.phone %></td>
-                            <td><%= participant.company %></td>
+                            <td><%= participant.phone || 'Não informado' %></td>
+                            <td><%= participant.company || 'Não informada' %></td>
+                            <td><%= new Date(participant.created_at).toLocaleString('pt-BR') %></td>
                         </tr>
-                    <% }); %>
+                    <% 
+                        }
+                    }); 
+                    %>
                 </tbody>
             </table>
         </section>
 
-        <section class="draw">
+        <section class="draw-section">
             <h2>Realizar Sorteio</h2>
-            <button id="drawButton">Sortear Vencedor</button>
-            <div id="winner"></div>
+            <button id="drawButton" class="draw-button">Sortear Vencedor</button>
+            <div id="winner" class="winner-display"></div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 Ukali. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Ukalia. Todos os direitos reservados.</p>
     </footer>
 
-    <script src="/js/admin.js"></script>
+    <button id="clearDbButton" class="clear-db-button">Limpar Base</button>
 
-    <button id="clearDbButton" class="clear-db-button">Cls</button>
     <script>
-        document.getElementById('clearDbButton').addEventListener('click', function() {
-            if (confirm('Tem certeza que deseja limpar toda a base de dados? Esta ação não pode ser desfeita.')) {
+    document.getElementById('clearDbButton').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Atenção!',
+            text: 'Tem certeza que deseja limpar toda a base de dados? Esta ação não pode ser desfeita.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, limpar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
                 fetch('/clear-database', {
                     method: 'POST',
                 })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message);
-                    location.reload(); // Recarrega a página para atualizar a lista de participantes
+                    Swal.fire(
+                        'Concluído!',
+                        'Base de dados limpa com sucesso.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
                 })
                 .catch(error => {
                     console.error('Erro:', error);
-                    alert('Ocorreu um erro ao limpar o banco de dados.');
+                    Swal.fire(
+                        'Erro',
+                        'Ocorreu um erro ao limpar o banco de dados.',
+                        'error'
+                    );
                 });
             }
         });
-        </script>
+    });
+
+    document.getElementById('drawButton').addEventListener('click', function() {
+        fetch('/draw', {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                Swal.fire('Atenção', data.message, 'info');
+            } else {
+                Swal.fire({
+                    title: 'Vencedor do Sorteio!',
+                    html: `
+                        <p><strong>Nome:</strong> ${data.name}</p>
+                        <p><strong>E-mail:</strong> ${data.email}</p>
+                        <p><strong>Telefone:</strong> ${data.phone || 'Não informado'}</p>
+                        <p><strong>Empresa:</strong> ${data.company || 'Não informada'}</p>
+                    `,
+                    icon: 'success'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            Swal.fire('Erro', 'Ocorreu um erro ao realizar o sorteio.', 'error');
+        });
+    });
+    </script>
 </body>
 </html>
