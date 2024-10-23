@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração - Ukali</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <header>
+        <h1>Painel de Administração - Ukali</h1>
+    </header>
+    
+    <main>
+        <section class="participants">
+            <h2>Participantes Cadastrados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Telefone</th>
+                        <th>Empresa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% participants.forEach(function(participant) { %>
+                        <tr>
+                            <td><%= participant.name %></td>
+                            <td><%= participant.email %></td>
+                            <td><%= participant.phone %></td>
+                            <td><%= participant.company %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="draw">
+            <h2>Realizar Sorteio</h2>
+            <button id="drawButton">Sortear Vencedor</button>
+            <div id="winner"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Ukali. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="/js/admin.js"></script>
+
+    <button id="clearDbButton" class="clear-db-button">Cls</button>
+    <script>
+        document.getElementById('clearDbButton').addEventListener('click', function() {
+            if (confirm('Tem certeza que deseja limpar toda a base de dados? Esta ação não pode ser desfeita.')) {
+                fetch('/clear-database', {
+                    method: 'POST',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    location.reload(); // Recarrega a página para atualizar a lista de participantes
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Ocorreu um erro ao limpar o banco de dados.');
+                });
+            }
+        });
+        </script>
+</body>
+</html>

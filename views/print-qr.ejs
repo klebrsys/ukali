@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Ukali - Participação no Sorteio</title>
+    <style>
+        /* Estilos específicos para a página de impressão */
+        @media screen {
+            body {
+                font-family: 'Arial', sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+
+            .print-container {
+                background: white;
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin: 20px auto;
+            }
+
+            .print-button {
+                background-color: #4a90e2;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-bottom: 20px;
+                display: block;
+            }
+
+            .print-button:hover {
+                background-color: #357abd;
+            }
+
+            @media print {
+                .print-button {
+                    display: none;
+                }
+            }
+        }
+
+        /* Estilos para impressão */
+        .content {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .qr-container {
+            margin: 20px 0;
+        }
+
+        .qr-code {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .description {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .url {
+            font-size: 1em;
+            color: #4a90e2;
+            margin-top: 10px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* Quebra de página para impressão */
+        @media print {
+            .print-container {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button onclick="window.print()" class="print-button">Imprimir QR Code</button>
+
+    <div class="print-container">
+        <div class="content">
+            <div class="logo">Ukalia</div>
+            <h1 class="title">Participe do Nosso Sorteio!</h1>
+            <p class="description">
+                Escaneie o QR Code abaixo para se cadastrar e concorrer a uma Alexa!<br>
+                Revolucione sua avaliação de desempenho com o Ukali.
+            </p>
+        </div>
+
+        <div class="qr-container">
+            <img src="<%= qrCodeDataUrl %>" alt="QR Code para participação" class="qr-code">
+        </div>
+
+        <p class="url">
+            Ou acesse: <%= baseUrl %>
+        </p>
+
+        <div class="footer">
+            <p>Ukali - Avaliação de Desempenho</p>
+            <p>&copy; 2024 Todos os direitos reservados</p>
+        </div>
+    </div>
+</body>
+</html>
